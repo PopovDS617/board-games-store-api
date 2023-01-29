@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
 import productsRoutes from './routes/products';
+import { errorHandler, notFound } from './middleware/error-middleware';
 
 dotenv.config();
 
@@ -53,9 +54,11 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.sendFile('index.html', { root: path.join(__dirname, 'public') });
 });
+app.use(errorHandler);
+app.use(notFound);
 
 app.use(productsRoutes);
-
+mongoose.set('strictQuery', false);
 mongoose
   .connect(process.env.MONGODB_CONNECT_URI as string)
   .then(() => {
