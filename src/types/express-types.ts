@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { Error } from 'mongoose';
 
-export type ExpressController = (
+export type ExpressMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -12,3 +11,9 @@ export type ExpressErrorController = (
   res: Response,
   next: NextFunction
 ) => void;
+
+type Error = {
+  message: string;
+  data: {};
+  statusCode: number;
+};

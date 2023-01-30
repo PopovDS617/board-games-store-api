@@ -5,21 +5,15 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
 import productsRoutes from './routes/products';
-import { errorHandler, notFound } from './middleware/error-middleware';
+import adminRoutes from './routes/admin';
+import { customCors } from './middleware/custom-cors';
+//import { errorHandler, notFound } from './middleware/error-middleware';
 
 dotenv.config();
 
 const app = express();
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'OPTIONS, GET, POST, PUT, PATCH, DELETE'
-  );
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+app.use(customCors);
 // const fileStorage = multer.diskStorage({
 //   destination: (req, file, cb) => {
 //     cb(null, 'images');
@@ -54,10 +48,12 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.sendFile('index.html', { root: path.join(__dirname, 'public') });
 });
-app.use(errorHandler);
-app.use(notFound);
+//app.use(errorHandler);
+//app.use(notFound);
 
 app.use(productsRoutes);
+app.use(adminRoutes);
+
 mongoose.set('strictQuery', false);
 mongoose
   .connect(process.env.MONGODB_CONNECT_URI as string)
