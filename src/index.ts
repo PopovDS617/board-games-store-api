@@ -58,7 +58,7 @@ mongoose.set('strictQuery', false);
 mongoose
   .connect(process.env.MONGODB_CONNECT_URI as string)
   .then(() => {
-    app.listen(process.env.PORT || 3000);
+    app.listen(process.env.PORT || 8080);
   })
   .catch((err: Error) => {
     console.log(err);
