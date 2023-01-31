@@ -1,33 +1,41 @@
-// import mongoose, { ObjectId } from 'mongoose';
-// import { Product } from '../types/model-types';
+import mongoose, { ObjectId } from 'mongoose';
+import { Product } from '../types/model-types';
 
-// const Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-// const userSchema = new Schema({
-//   email: {
-//     type: String,
-//     required: true,
-//   },
-//   password: {
-//     type: String,
-//     required: true,
-//   },
-//   resetToken: String,
-//   resetTokenExpiration: Date,
+const userSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  resetToken: String,
+  resetTokenExpiration: Date,
+  isAdmin: {
+    type: Boolean,
+    required: true,
+  },
 
-//   cart: {
-//     items: [
-//       {
-//         productId: {
-//           type: Schema.Types.ObjectId,
-//           ref: 'Product',
-//           required: true,
-//         },
-//         quantity: { type: Number, required: true },
-//       },
-//     ],
-//   },
-// });
+  cart: {
+    items: [
+      {
+        productId: {
+          type: Schema.Types.ObjectId,
+          ref: 'Product',
+          required: true,
+        },
+        quantity: { type: Number, required: true },
+      },
+    ],
+  },
+});
 
 // userSchema.methods.addToCart = function (product: Product) {
 //   const cartProductIndex = this.cart.items.findIndex((cp: Product) => {
@@ -65,4 +73,6 @@
 //   return this.save();
 // };
 
-// module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+
+export default User;

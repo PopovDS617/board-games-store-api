@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import productsRoutes from './routes/products';
 import adminRoutes from './routes/admin';
+import authRoutes from './routes/auth';
 import { customCors } from './middleware/custom-cors';
 //import { errorHandler, notFound } from './middleware/error-middleware';
 
@@ -53,6 +54,7 @@ app.get('/', (req, res) => {
 
 app.use(productsRoutes);
 app.use(adminRoutes);
+app.use(authRoutes);
 
 mongoose.set('strictQuery', false);
 mongoose
