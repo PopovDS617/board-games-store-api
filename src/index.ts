@@ -60,6 +60,7 @@ mongoose.set('strictQuery', false);
 mongoose
   .connect(process.env.MONGODB_CONNECT_URI as string)
   .then(() => {
+    console.log('app is listening to port 8080');
     app.listen(process.env.PORT || 8080);
   })
   .catch((err: Error) => {

@@ -1,9 +1,7 @@
-import mongoose, { ObjectId } from 'mongoose';
-import { Product } from '../types/model-types';
+import mongoose, { Schema } from 'mongoose';
+import { IProduct, IUser } from '../types/model-types';
 
-const Schema = mongoose.Schema;
-
-const userSchema = new Schema({
+const userSchema: Schema = new Schema({
   name: {
     type: String,
     required: true,
@@ -18,10 +16,8 @@ const userSchema = new Schema({
   },
   resetToken: String,
   resetTokenExpiration: Date,
-  isAdmin: {
-    type: Boolean,
-    required: true,
-  },
+
+  token: { type: String, required: false },
 
   cart: {
     items: [
@@ -32,6 +28,17 @@ const userSchema = new Schema({
           required: true,
         },
         quantity: { type: Number, required: true },
+      },
+    ],
+  },
+  wishlish: {
+    items: [
+      {
+        productId: {
+          type: Schema.Types.ObjectId,
+          ref: 'Product',
+          required: true,
+        },
       },
     ],
   },
@@ -73,6 +80,6 @@ const userSchema = new Schema({
 //   return this.save();
 // };
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model<IUser>('User', userSchema);
 
 export default User;

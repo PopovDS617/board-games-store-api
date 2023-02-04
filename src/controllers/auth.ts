@@ -3,8 +3,12 @@ import User from '../models/user';
 import asyncHandler from 'express-async-handler';
 import bcrypt from 'bcryptjs';
 import generateToken from '../utils/generate-token';
+import { IUser } from '../types/model-types';
 
-export const onSignup: ExpressMiddleware = asyncHandler(
+// @desc    sign up
+// @route   POST /auth/signup
+// @access  Public
+export const signup: ExpressMiddleware = asyncHandler(
   async (req, res, next) => {
     //  const errors = validationResult(req);
     // if (!errors.isEmpty()) {
@@ -24,16 +28,17 @@ export const onSignup: ExpressMiddleware = asyncHandler(
       password: hashedPassword,
       name: name,
       isAdmin: false,
+      token: null,
     });
 
     if (user) {
       res.status(201).json({
         message: 'ok',
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        token: generateToken(user._id.toString()),
+        // _id: user._id,
+        // name: user.name,
+        // email: user.email,
+        // isAdmin: user.isAdmin,
+        // token: user.token,
       });
     } else {
       res.status(400);
@@ -42,30 +47,54 @@ export const onSignup: ExpressMiddleware = asyncHandler(
   }
 );
 
-export const onLogin: ExpressMiddleware = asyncHandler(
+// @desc    login
+// @route   POST /auth/login
+// @access  Public
+export const login: ExpressMiddleware = asyncHandler(async (req, res, next) => {
+  const email = req.body.email;
+  const enteredPassword = req.body.password;
+  const user = await User.findOne({ email: email });
+  if (!user) {
+    res.status(401);
+    throw new Error('User not found');
+  }
+
+  const isPasswordValid = await bcrypt.compare(enteredPassword, user.password);
+  if (!isPasswordValid) {
+    throw new Error('Wrong password');
+  }
+  if (user && isPasswordValid) {
+    const token = generateToken(user._id.toString());
+
+    user.token = token;
+    const updateUser = await user.save();
+
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: token,
+    });
+  }
+});
+
+// @desc    login
+// @route   POST /auth/logout
+// @access  Private
+export const logout: ExpressMiddleware = asyncHandler(
   async (req, res, next) => {
-    const email = req.body.email;
-    const enteredPassword = req.body.password;
-    const user = await User.findOne({ email: email });
+    const { userId } = req.body;
+
+    const user = await User.findByIdAndUpdate({ _id: userId }, { token: null });
+
     if (!user) {
-      throw new Error('no user with this email');
+      res.status(401);
+      throw new Error('User not found');
     }
 
-    const isPasswordValid = await bcrypt.compare(
-      enteredPassword,
-      user.password
-    );
-    if (!isPasswordValid) {
-      throw new Error('wrong password');
-    }
-    if (user && isPasswordValid) {
-      res.status(200).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        token: generateToken(user._id.toString()),
-      });
+    if (user) {
+      res.status(200).json({ message: 'succesfully logged out' });
     }
   }
 );

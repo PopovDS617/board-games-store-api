@@ -39,3 +39,21 @@ export const getSingleProduct: ExpressMiddleware = asyncHandler(
     }
   }
 );
+
+// @desc    get single product
+// @route   POST /user/wishlist/:productId
+// @access  Private
+export const addProductToWishlish: ExpressMiddleware = asyncHandler(
+  async (req, res, next) => {
+    const productId = req.params.productId;
+    const product = await Product.findOne({ _id: productId });
+
+    if (product) {
+      res.status(200).json({ product });
+    } else {
+      const error = 'Product not found';
+      res.status(404).json({ message: error });
+      //next(error);
+    }
+  }
+);
