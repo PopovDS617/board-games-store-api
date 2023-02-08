@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-export type ExpressMiddleware = (
+export type TExpressMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction

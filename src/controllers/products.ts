@@ -1,11 +1,11 @@
-import { ExpressMiddleware } from '../types/express-types';
+import { TExpressMiddleware } from '../@types/express-types';
 import Product from '../models/product';
 import asyncHandler from 'express-async-handler';
 
 // @desc    get a list of all products
 // @route   GET /products
 // @access  Public
-export const getProducts: ExpressMiddleware = asyncHandler(
+export const getProducts: TExpressMiddleware = asyncHandler(
   async (req, res, next) => {
     const products = await Product.find();
 
@@ -25,7 +25,7 @@ export const getProducts: ExpressMiddleware = asyncHandler(
 // @desc    get single product
 // @route   GET /products/:productId
 // @access  Public
-export const getSingleProduct: ExpressMiddleware = asyncHandler(
+export const getSingleProduct: TExpressMiddleware = asyncHandler(
   async (req, res, next) => {
     const productId = req.params.productId;
     const product = await Product.findOne({ _id: productId });
@@ -43,7 +43,7 @@ export const getSingleProduct: ExpressMiddleware = asyncHandler(
 // @desc    get single product
 // @route   POST /user/wishlist/:productId
 // @access  Private
-export const addProductToWishlish: ExpressMiddleware = asyncHandler(
+export const addProductToWishlish: TExpressMiddleware = asyncHandler(
   async (req, res, next) => {
     const productId = req.params.productId;
     const product = await Product.findOne({ _id: productId });

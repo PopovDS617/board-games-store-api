@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { IProduct, IUser } from '../types/model-types';
+import { IProduct, IUser } from '../@types/model-types';
 
 const userSchema: Schema = new Schema({
   name: {

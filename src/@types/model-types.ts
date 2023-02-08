@@ -15,7 +15,7 @@ export interface IUser extends Document {
   password: string;
   resetToken: string;
   resetTokenExpiration: Date;
-  isAdmin: boolean;
+
   token: string;
   cart: {
     items: [

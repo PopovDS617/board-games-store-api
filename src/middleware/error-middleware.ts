@@ -1,9 +1,9 @@
 // import {
-//   ExpressMiddleware,
+//   TExpressMiddleware,
 //   ExpressErrorController,
 // } from '../types/express-types';
 
-// export const notFound: ExpressMiddleware = (req, res, next) => {
+// export const notFound: TExpressMiddleware = (req, res, next) => {
 //   const error = new Error(`Not Found - ${req.originalUrl}`);
 //   res.status(404);
 //   next(error);

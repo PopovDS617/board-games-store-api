@@ -1,6 +1,6 @@
-import { ExpressMiddleware } from '../types/express-types';
+import { TExpressMiddleware } from '../@types/express-types';
 
-export const customCors: ExpressMiddleware = (req, res, next) => {
+export const customCors: TExpressMiddleware = (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
     'Access-Control-Allow-Methods',

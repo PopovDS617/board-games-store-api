@@ -1,11 +1,11 @@
-import { ExpressMiddleware } from '../types/express-types';
+import { TExpressMiddleware } from '../@types/express-types';
 import Product from '../models/product';
 import asyncHandler from 'express-async-handler';
 
 // @desc    add a new product, only for admin
 // @route   POST /admin/add-product
 // @access  Private
-export const addNewProduct: ExpressMiddleware = asyncHandler(
+export const addNewProduct: TExpressMiddleware = asyncHandler(
   async (req, res, next) => {
     const { title, description, price, imageUrl } = req.body;
     const product = await Product.create({
@@ -27,7 +27,7 @@ export const addNewProduct: ExpressMiddleware = asyncHandler(
 // @desc    delete a new product, only for admin
 // @route   DELETE /admin/delete-product
 // @access  Private
-export const deleteProduct: ExpressMiddleware = asyncHandler(
+export const deleteProduct: TExpressMiddleware = asyncHandler(
   async (req, res, next) => {
     const { productId } = req.body;
 
@@ -48,7 +48,7 @@ export const deleteProduct: ExpressMiddleware = asyncHandler(
 // @desc    change/update product, only for admin
 // @route   PATCH /admin/delete-product
 // @access  Private
-export const updateProduct: ExpressMiddleware = asyncHandler(
+export const updateProduct: TExpressMiddleware = asyncHandler(
   async (req, res, next) => {
     const { title, description, price, imageUrl, productId } = req.body;
     try {
