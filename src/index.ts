@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-
+import morgan from 'morgan';
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
@@ -13,7 +13,7 @@ import { customCors } from './middleware/custom-cors';
 dotenv.config();
 
 const app = express();
-
+app.use(morgan('dev'));
 app.use(customCors);
 // const fileStorage = multer.diskStorage({
 //   destination: (req, file, cb) => {
