@@ -29,7 +29,7 @@ export const addNewProduct: TExpressMiddleware = asyncHandler(
 // @access  Private
 export const deleteProduct: TExpressMiddleware = asyncHandler(
   async (req, res, next) => {
-    const { productId } = req.body;
+    const { productId, userId } = req.body;
 
     try {
       const isProductDeleted = await Product.findByIdAndDelete({

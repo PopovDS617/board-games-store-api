@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { JwtPayload } from 'jsonwebtoken';
 
 export type TExpressMiddleware = (
   req: Request,
@@ -12,8 +13,12 @@ export type ExpressErrorController = (
   next: NextFunction
 ) => void;
 
-type Error = {
+export type Error = {
   message: string;
   data: {};
   statusCode: number;
 };
+
+export interface CustomRequest extends Request {
+  token: string | JwtPayload;
+}

@@ -66,7 +66,8 @@ export const login: TExpressMiddleware = asyncHandler(
       const token = generateToken(user._id.toString());
 
       user.token = token;
-      const updateUser = await user.save();
+      console.log(token);
+      await user.save();
 
       res.status(200).json({
         _id: user._id,
